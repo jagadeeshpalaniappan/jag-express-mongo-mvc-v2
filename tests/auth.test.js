@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const chai = require("chai"); // eslint-disable-line import/newline-after-import
 const expect = chai.expect;
 const app = require("../src/index");
-const config = require("../src/config/config");
+const config = require("../src/app/config");
 
 chai.config.includeStack = true;
 

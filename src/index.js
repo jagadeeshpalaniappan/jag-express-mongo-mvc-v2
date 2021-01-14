@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const util = require("util");
 
 // config should be imported before importing any other file
-const config = require("./config/config");
-const app = require("./config/express");
+const config = require("./app/config");
+const app = require("./app/express");
 
 const debug = require("debug")("jag-express-mongo-mvc-v2:index");
 
