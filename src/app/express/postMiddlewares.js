@@ -2,7 +2,7 @@ const httpStatus = require("http-status");
 const expressValidation = require("express-validation");
 // const expressWinston = require("express-winston");
 // const winstonInstance = require("../winston");
-const APIError = require("../../helpers/APIError");
+const APIError = require("../helpers/APIError");
 const config = require("../config");
 
 module.exports = (app) => {
