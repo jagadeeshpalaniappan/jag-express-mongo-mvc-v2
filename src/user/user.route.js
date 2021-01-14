@@ -1,7 +1,8 @@
 const express = require("express");
 const validate = require("express-validation");
-const paramValidation = require("../app/param-validation");
+
 const userCtrl = require("./user.controller");
+const userValdn = require("./user.validation");
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -11,7 +12,7 @@ router
   .get(userCtrl.list)
 
   /** POST /api/users - Create new user */
-  .post(validate(paramValidation.createUser), userCtrl.create);
+  .post(validate(userValdn.createUser), userCtrl.create);
 
 router
   .route("/:userId")
@@ -19,7 +20,7 @@ router
   .get(userCtrl.get)
 
   /** PUT /api/users/:userId - Update user */
-  .put(validate(paramValidation.updateUser), userCtrl.update)
+  .put(validate(userValdn.updateUser), userCtrl.update)
 
   /** DELETE /api/users/:userId - Delete user */
   .delete(userCtrl.remove);
