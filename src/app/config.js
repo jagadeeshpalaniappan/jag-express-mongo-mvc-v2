@@ -19,6 +19,7 @@ const envVarsSchema = Joi.object({
     .description("JWT Secret required to sign"),
   MONGO_HOST: Joi.string().required().description("Mongo DB host url"),
   MONGO_PORT: Joi.number().default(27017),
+  IS_SERVER_LESS: Joi.boolean().default(false),
 })
   .unknown()
   .required();
@@ -37,6 +38,7 @@ const config = {
     host: envVars.MONGO_HOST,
     port: envVars.MONGO_PORT,
   },
+  isServerLess: envVars.IS_SERVER_LESS,
 };
 
 module.exports = config;

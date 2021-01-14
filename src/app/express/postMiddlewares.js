@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
-const expressWinston = require("express-winston");
 const expressValidation = require("express-validation");
-const winstonInstance = require("../winston");
+// const expressWinston = require("express-winston");
+// const winstonInstance = require("../winston");
 const APIError = require("../../helpers/APIError");
 const config = require("../config");
 
@@ -29,13 +29,13 @@ module.exports = (app) => {
   });
 
   // log error in winston transports except when executing test suite
-  if (config.env !== "test") {
-    app.use(
-      expressWinston.errorLogger({
-        winstonInstance,
-      })
-    );
-  }
+  // if (config.env !== "test") {
+  //   app.use(
+  //     expressWinston.errorLogger({
+  //       winstonInstance,
+  //     })
+  //   );
+  // }
 
   // error handler, send stacktrace only during development
   app.use((

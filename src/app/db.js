@@ -16,7 +16,14 @@ mongoose.Promise = Promise;
 const mongoUri = config.mongo.host;
 
 mongoose.connection.on("error", () => {
+  // eslint-disable-next-line no-console
+  console.error("DB:CONNECTION-FAILED");
   throw new Error(`unable to connect to database: ${mongoUri}`);
+});
+
+mongoose.connection.once("open", function () {
+  // eslint-disable-next-line no-console
+  console.log("DB:CONNECTED");
 });
 
 // print mongoose logs in dev env

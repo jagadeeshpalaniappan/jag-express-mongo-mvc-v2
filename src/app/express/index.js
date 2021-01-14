@@ -20,7 +20,10 @@ postMiddlewares(app);
 // init: expressApp
 function init() {
   app.listen(config.port, () => {
-    console.info(`server started on port ${config.port} (${config.env})`); // eslint-disable-line no-console
+    // eslint-disable-next-line no-console
+    console.log(
+      `EXPRESS:INITIALIZED [PORT=${config.port}] [NODE_ENV=${config.env}]`
+    );
   });
 }
 module.exports = { app, init };

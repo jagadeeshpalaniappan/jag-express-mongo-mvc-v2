@@ -5,8 +5,8 @@ const compress = require("compression");
 const methodOverride = require("method-override");
 const cors = require("cors");
 const helmet = require("helmet");
-const expressWinston = require("express-winston");
-const winstonInstance = require("../winston");
+// const expressWinston = require("express-winston");
+// const winstonInstance = require("../winston");
 const config = require("../config");
 
 module.exports = (app) => {
@@ -29,17 +29,17 @@ module.exports = (app) => {
   app.use(cors());
 
   // enable detailed API logging in dev env
-  if (config.env === "development") {
-    expressWinston.requestWhitelist.push("body");
-    expressWinston.responseWhitelist.push("body");
-    app.use(
-      expressWinston.logger({
-        winstonInstance,
-        meta: false, // optional: log meta data about request (defaults to true)
-        msg:
-          "HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms",
-        colorStatus: true, // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
-      })
-    );
-  }
+  // if (config.env === "development") {
+  //   expressWinston.requestWhitelist.push("body");
+  //   expressWinston.responseWhitelist.push("body");
+  //   app.use(
+  //     expressWinston.logger({
+  //       winstonInstance,
+  //       meta: false, // optional: log meta data about request (defaults to true)
+  //       msg:
+  //         "HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms",
+  //       colorStatus: true, // Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
+  //     })
+  //   );
+  // }
 };
