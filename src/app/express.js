@@ -96,4 +96,9 @@ app.use((
   })
 );
 
-module.exports = app;
+function init() {
+  app.listen(config.port, () => {
+    console.info(`server started on port ${config.port} (${config.env})`); // eslint-disable-line no-console
+  });
+}
+module.exports = { app, init };
