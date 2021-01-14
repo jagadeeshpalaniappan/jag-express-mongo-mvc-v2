@@ -23,16 +23,8 @@ function login(req, res, next) {
     req.body.username === user.username &&
     req.body.password === user.password
   ) {
-    const token = jwt.sign(
-      {
-        username: user.username,
-      },
-      config.jwtSecret
-    );
-    return res.json({
-      token,
-      username: user.username,
-    });
+    const token = jwt.sign({ username: user.username }, config.jwtSecret);
+    return res.json({ token, username: user.username });
   }
 
   const err = new APIError(
