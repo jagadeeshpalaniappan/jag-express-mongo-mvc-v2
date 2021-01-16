@@ -1,30 +1,30 @@
 const express = require("express");
 const validate = require("express-validation");
-const articleCtrl = require("./controller");
-const articleValdn = require("./article.validation");
+const ctrl = require("./controller");
+const valdn = require("./article.validation");
 
 const router = express.Router(); // eslint-disable-line new-cap
 
 router
   .route("/")
   /** GET /api/articles - Get list of articles */
-  .get(articleCtrl.list)
+  .get(ctrl.list)
 
   /** POST /api/articles - Create new article */
-  .post(validate(articleValdn.createArticle), articleCtrl.create);
+  .post(validate(valdn.createArticle), ctrl.create);
 
 router
   .route("/:id")
   /** GET /api/articles/:id - Get article */
-  .get(articleCtrl.get)
+  .get(ctrl.get)
 
   /** PUT /api/articles/:id - Update article */
-  .put(validate(articleValdn.updateArticle), articleCtrl.update)
+  .put(validate(valdn.updateArticle), ctrl.update)
 
   /** DELETE /api/articles/:id - Delete article */
-  .delete(articleCtrl.remove);
+  .delete(ctrl.remove);
 
 /** Load article when API with id route parameter is hit */
-router.param("id", articleCtrl.load);
+router.param("id", ctrl.load);
 
 module.exports = router;
