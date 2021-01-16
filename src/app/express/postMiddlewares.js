@@ -8,6 +8,7 @@ const config = require("../config");
 module.exports = (app) => {
   // if error is not an instanceOf APIError, convert it.
   app.use((err, req, res, next) => {
+    console.log("ERR1", err);
     if (err instanceof expressValidation.ValidationError) {
       // validation error contains errors which is an array of error each containing message[]
       const unifiedErrorMessage = err.errors
@@ -24,6 +25,7 @@ module.exports = (app) => {
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
+    console.log("ERR2");
     const err = new APIError("API not found", httpStatus.NOT_FOUND);
     return next(err);
   });

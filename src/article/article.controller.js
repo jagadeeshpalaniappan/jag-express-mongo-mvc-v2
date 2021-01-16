@@ -3,13 +3,15 @@ const Article = require("./article.model");
 /**
  * Load article and append to req.
  */
-function load(req, res, next, id) {
-  Article.get(id)
-    .then((article) => {
-      req.article = article; // eslint-disable-line no-param-reassign
-      return next();
-    })
-    .catch((e) => next(e));
+async function load(req, res, next) {
+  try {
+    const { id } = req.params;
+    const article = await Article.get(id);
+    req.article = article; // eslint-disable-line no-param-reassign
+    return next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 /**
@@ -26,16 +28,17 @@ function get(req, res) {
  * @property {string} req.body.mobileNumber - The mobileNumber of article.
  * @returns {Article}
  */
-function create(req, res, next) {
-  const article = new Article({
-    articlename: req.body.articlename,
-    mobileNumber: req.body.mobileNumber,
-  });
-
-  article
-    .save()
-    .then((savedArticle) => res.json(savedArticle))
-    .catch((e) => next(e));
+async function create(req, res, next) {
+  try {
+    const article = new Article({
+      articlename: req.body.articlename,
+      mobileNumber: req.body.mobileNumber,
+    });
+    const savedArticle = await article.save();
+    res.json(savedArticle);
+  } catch (error) {
+    next(error);
+  }
 }
 
 /**
@@ -44,15 +47,16 @@ function create(req, res, next) {
  * @property {string} req.body.mobileNumber - The mobileNumber of article.
  * @returns {Article}
  */
-function update(req, res, next) {
-  const article = req.article;
-  article.articlename = req.body.articlename;
-  article.mobileNumber = req.body.mobileNumber;
-
-  article
-    .save()
-    .then((savedArticle) => res.json(savedArticle))
-    .catch((e) => next(e));
+async function update(req, res, next) {
+  try {
+    const article = req.article;
+    article.articlename = req.body.articlename;
+    article.mobileNumber = req.body.mobileNumber;
+    const savedArticle = await article.save();
+    res.json(savedArticle);
+  } catch (error) {
+    next(error);
+  }
 }
 
 /**
@@ -61,23 +65,28 @@ function update(req, res, next) {
  * @property {number} req.query.limit - Limit number of articles to be returned.
  * @returns {Article[]}
  */
-function list(req, res, next) {
-  const { limit = 50, skip = 0 } = req.query;
-  Article.list({ limit, skip })
-    .then((articles) => res.json(articles))
-    .catch((e) => next(e));
+async function list(req, res, next) {
+  try {
+    const { limit = 50, skip = 0 } = req.query;
+    const articles = await Article.list({ limit, skip });
+    res.json(articles);
+  } catch (error) {
+    next(error);
+  }
 }
 
 /**
  * Delete article.
  * @returns {Article}
  */
-function remove(req, res, next) {
-  const article = req.article;
-  article
-    .remove()
-    .then((deletedArticle) => res.json(deletedArticle))
-    .catch((e) => next(e));
+async function remove(req, res, next) {
+  try {
+    const article = req.article;
+    const articles = await article.remove();
+    res.json(articles);
+  } catch (error) {
+    next(error);
+  }
 }
 
 module.exports = { load, get, create, update, list, remove };

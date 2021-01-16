@@ -14,17 +14,17 @@ router
   .post(validate(articleValdn.createArticle), articleCtrl.create);
 
 router
-  .route("/:articleId")
-  /** GET /api/articles/:articleId - Get article */
+  .route("/:id")
+  /** GET /api/articles/:id - Get article */
   .get(articleCtrl.get)
 
-  /** PUT /api/articles/:articleId - Update article */
+  /** PUT /api/articles/:id - Update article */
   .put(validate(articleValdn.updateArticle), articleCtrl.update)
 
-  /** DELETE /api/articles/:articleId - Delete article */
+  /** DELETE /api/articles/:id - Delete article */
   .delete(articleCtrl.remove);
 
-/** Load article when API with articleId route parameter is hit */
-router.param("articleId", articleCtrl.load);
+/** Load article when API with id route parameter is hit */
+router.param("id", articleCtrl.load);
 
 module.exports = router;
