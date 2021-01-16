@@ -1,9 +1,7 @@
-const express = require("express");
+const router = require("express").Router();
 const validate = require("express-validation");
 const ctrl = require("./controller");
-const valdn = require("./article.validation");
-
-const router = express.Router(); // eslint-disable-line new-cap
+const valdn = require("./validation");
 
 router
   .route("/")
