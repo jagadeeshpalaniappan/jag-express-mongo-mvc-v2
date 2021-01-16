@@ -1,5 +1,6 @@
 const httpStatus = require("http-status");
 const { Article } = require("./model");
+const APIError = require("../app/helpers/APIError");
 
 /**
  * get: article
@@ -22,7 +23,7 @@ async function get(id) {
  * @property {number} obj.limit - Limit number of articles to be returned.
  * @returns {Article[]}
  */
-async function list({ limit, skip }) {
+async function getAll({ limit, skip }) {
   return Article.find()
     .sort({ createdAt: -1 })
     .skip(+skip)
@@ -63,5 +64,13 @@ async function remove(article) {
   const deletedUser = await article.remove();
   return deletedUser;
 }
+/**
+ * Delete article.
+ * @returns {Article}
+ */
+async function removeAll(article) {
+  const deletedUser = await Article.deleteMany({});
+  return deletedUser;
+}
 
-module.exports = { get, create, update, list, remove };
+module.exports = { get, getAll, create, update, remove, removeAll };

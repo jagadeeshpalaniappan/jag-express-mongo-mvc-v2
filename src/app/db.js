@@ -34,6 +34,10 @@ if (config.mongooseDebug) {
 }
 
 function init() {
-  mongoose.connect(mongoUri, { server: { socketOptions: { keepAlive: 1 } } });
+  // mongoose.connect(mongoUri, { server: { socketOptions: { keepAlive: 1 } } });
+  mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 }
 module.exports = { init };

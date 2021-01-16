@@ -26,6 +26,26 @@ function get(req, res) {
 }
 
 /**
+ * Get article list.
+ * List the articles in descending order of 'createdAt' timestamp.
+ * @property {number} req.query.skip - Number of articles to be skipped.
+ * @property {number} req.query.limit - Limit number of articles to be returned.
+ * @returns {Article[]}
+ */
+async function getAll(req, res, next) {
+  try {
+    // POPULATE:
+    const { limit = 50, skip = 0 } = req.query;
+    // TX:
+    const articles = await dao.getAll({ limit, skip });
+    // RESP:
+    res.json(articles);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
  * Create new article
  * @property {string} req.body.articlename - The articlename of article.
  * @property {string} req.body.mobileNumber - The mobileNumber of article.
@@ -74,26 +94,6 @@ async function update(req, res, next) {
 }
 
 /**
- * Get article list.
- * List the articles in descending order of 'createdAt' timestamp.
- * @property {number} req.query.skip - Number of articles to be skipped.
- * @property {number} req.query.limit - Limit number of articles to be returned.
- * @returns {Article[]}
- */
-async function list(req, res, next) {
-  try {
-    // POPULATE:
-    const { limit = 50, skip = 0 } = req.query;
-    // TX:
-    const articles = await dao.list({ limit, skip });
-    // RESP:
-    res.json(articles);
-  } catch (error) {
-    next(error);
-  }
-}
-
-/**
  * Delete article.
  * @returns {Article}
  */
@@ -102,7 +102,7 @@ async function remove(req, res, next) {
     // POPULATE:
     const article = req.article;
     // TX:
-    const deletedUser = await article.remove();
+    const deletedUser = await dao.remove(article);
     // RESP:
     res.json(deletedUser);
   } catch (error) {
@@ -110,4 +110,19 @@ async function remove(req, res, next) {
   }
 }
 
-module.exports = { load, get, create, update, list, remove };
+/**
+ * Delete All article.
+ * @returns {Article}
+ */
+async function removeAll(req, res, next) {
+  try {
+    // TX:
+    const deletedUser = await dao.removeAll();
+    // RESP:
+    res.json({ message: `${deletedUser.deletedCount} records deleted` });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { load, get, getAll, create, update, remove, removeAll };

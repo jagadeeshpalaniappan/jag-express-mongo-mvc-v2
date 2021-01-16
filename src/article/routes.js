@@ -6,10 +6,13 @@ const valdn = require("./validation");
 router
   .route("/")
   /** GET /api/articles - Get list of articles */
-  .get(ctrl.list)
+  .get(ctrl.getAll)
 
   /** POST /api/articles - Create new article */
-  .post(validate(valdn.createArticle), ctrl.create);
+  .post(validate(valdn.createArticle), ctrl.create)
+
+  /** DELETE /api/articles - Delete All articles */
+  .delete(ctrl.removeAll);
 
 router
   .route("/:id")
