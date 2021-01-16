@@ -5,8 +5,17 @@ const Article = require("./article.model");
  */
 async function load(req, res, next) {
   try {
+    // POPULATE:
     const { id } = req.params;
-    const article = await Article.get(id);
+
+    // TX:
+    const article = await Article.findById(id);
+
+    // IF-ERR:
+    if (!article)
+      throw new APIError("No such article exists!", httpStatus.NOT_FOUND);
+
+    // RESP:
     req.article = article; // eslint-disable-line no-param-reassign
     return next();
   } catch (error) {
@@ -61,6 +70,7 @@ async function update(req, res, next) {
 
 /**
  * Get article list.
+ * List the articles in descending order of 'createdAt' timestamp.
  * @property {number} req.query.skip - Number of articles to be skipped.
  * @property {number} req.query.limit - Limit number of articles to be returned.
  * @returns {Article[]}
@@ -68,7 +78,13 @@ async function update(req, res, next) {
 async function list(req, res, next) {
   try {
     const { limit = 50, skip = 0 } = req.query;
-    const articles = await Article.list({ limit, skip });
+
+    const articles = await Article.find()
+      .sort({ createdAt: -1 })
+      .skip(+skip)
+      .limit(+limit)
+      .exec();
+
     res.json(articles);
   } catch (error) {
     next(error);

@@ -1,6 +1,6 @@
 const express = require("express");
 const validate = require("express-validation");
-const articleCtrl = require("./article.controller");
+const articleCtrl = require("./controller");
 const articleValdn = require("./article.validation");
 
 const router = express.Router(); // eslint-disable-line new-cap
