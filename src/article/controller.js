@@ -1,5 +1,5 @@
-const httpStatus = require("http-status");
 const { Article } = require("./model");
+const dao = require("./dao");
 
 /**
  * Load article and append to req.
@@ -8,16 +8,9 @@ async function load(req, res, next) {
   try {
     // POPULATE:
     const { id } = req.params;
-
     // TX:
-    const article = await Article.findById(id);
-
-    // IF-ERR:
-    if (!article)
-      throw new APIError("No such article exists!", httpStatus.NOT_FOUND);
-
+    req.article = await dao.get(id);
     // RESP:
-    req.article = article; // eslint-disable-line no-param-reassign
     return next();
   } catch (error) {
     next(error);
@@ -40,11 +33,16 @@ function get(req, res) {
  */
 async function create(req, res, next) {
   try {
-    const article = new Article({
-      articlename: req.body.articlename,
-      mobileNumber: req.body.mobileNumber,
+    // POPULATE:
+    const { title, description, published, userId } = req.body;
+    // TX:
+    const savedArticle = await dao.create({
+      title,
+      description,
+      published,
+      userId,
     });
-    const savedArticle = await article.save();
+    // RESP:
     res.json(savedArticle);
   } catch (error) {
     next(error);
@@ -59,10 +57,16 @@ async function create(req, res, next) {
  */
 async function update(req, res, next) {
   try {
+    // POPULATE:
+    const { title, description, published } = req.body;
     const article = req.article;
-    article.articlename = req.body.articlename;
-    article.mobileNumber = req.body.mobileNumber;
-    const savedArticle = await article.save();
+    if (title) article.title = title;
+    if (description) article.description = description;
+    if (published) article.published = published;
+
+    // TX:
+    const savedArticle = await dao.update(article);
+    // RESP:
     res.json(savedArticle);
   } catch (error) {
     next(error);
@@ -78,14 +82,11 @@ async function update(req, res, next) {
  */
 async function list(req, res, next) {
   try {
+    // POPULATE:
     const { limit = 50, skip = 0 } = req.query;
-
-    const articles = await Article.find()
-      .sort({ createdAt: -1 })
-      .skip(+skip)
-      .limit(+limit)
-      .exec();
-
+    // TX:
+    const articles = await dao.list({ limit, skip });
+    // RESP:
     res.json(articles);
   } catch (error) {
     next(error);
@@ -98,9 +99,12 @@ async function list(req, res, next) {
  */
 async function remove(req, res, next) {
   try {
+    // POPULATE:
     const article = req.article;
-    const articles = await article.remove();
-    res.json(articles);
+    // TX:
+    const deletedUser = await article.remove();
+    // RESP:
+    res.json(deletedUser);
   } catch (error) {
     next(error);
   }

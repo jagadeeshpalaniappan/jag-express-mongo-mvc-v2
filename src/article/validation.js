@@ -3,23 +3,23 @@ const Joi = require("joi");
 // POST /api/articles
 const createArticle = {
   body: {
-    articlename: Joi.string().required(),
-    mobileNumber: Joi.string()
-      .regex(/^[1-9][0-9]{9}$/)
-      .required(),
+    title: Joi.string().min(3).max(30).required(),
+    description: Joi.string(),
+    published: Joi.boolean(),
+    userId: Joi.string().required(),
   },
 };
 
-// UPDATE /api/articles/:articleId
+// UPDATE /api/articles/:id
 const updateArticle = {
   body: {
-    articlename: Joi.string().required(),
-    mobileNumber: Joi.string()
-      .regex(/^[1-9][0-9]{9}$/)
-      .required(),
+    title: Joi.string().min(3).max(30),
+    description: Joi.string(),
+    published: Joi.boolean(),
+    userId: Joi.string().required(),
   },
   params: {
-    articleId: Joi.string().hex().required(),
+    id: Joi.string().hex().required(),
   },
 };
 
