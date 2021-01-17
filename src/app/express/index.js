@@ -2,7 +2,7 @@ const express = require("express");
 
 const config = require("../config");
 
-const apiRoutes = require("./api.route");
+const apiRoutes = require("./apiRoutes");
 const preMiddlewares = require("./preMiddlewares");
 const postMiddlewares = require("./postMiddlewares");
 
