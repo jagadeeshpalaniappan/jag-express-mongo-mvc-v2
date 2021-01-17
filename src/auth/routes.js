@@ -2,8 +2,8 @@ const express = require("express");
 const validate = require("express-validation");
 const expressJwt = require("express-jwt");
 const config = require("../app/config");
-const authCtrl = require("./auth.controller");
-const authValdn = require("./auth.validation");
+const authCtrl = require("./controller");
+const authValdn = require("./validation");
 
 const router = express.Router(); // eslint-disable-line new-cap
 
